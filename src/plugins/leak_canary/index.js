@@ -22,15 +22,25 @@ import type {ElementID, Element} from 'flipper';
 import {processLeaks} from './processLeakString';
 
 type State = {
-  leaks: Leak[],
+  leaks: LeakObject[],
   selectedIdx: ?number,
   selectedEid: ?string,
   showFullClassPaths: boolean,
   leaksCount: number,
 };
 
+export type LeakObject = {|
+  root: string,
+  elements: {[key: ElementID]: Element},
+  elementsSimple: {[key: ElementID]: Element},
+  staticFields: {},
+  instanceFields: {},
+  title: string,
+  retainedSize: string,
+|};
+
 type LeakReport = {
-  leaks: string[],
+  leaks: LeakObject[],
 };
 
 export type Leak = {
@@ -67,8 +77,8 @@ export default class LeakCanary extends FlipperPlugin<State> {
       // We only process new leaks instead of replacing the whole list in order
       // to both avoid redundant processing and to preserve the expanded/
       // collapsed state of the tree view
-      const newLeaks = processLeaks(results.leaks.slice(this.state.leaksCount));
-
+      //const newLeaks = processLeaks(results.leaks.slice(this.state.leaksCount));
+      const newLeaks = results.leaks
       let leaks = this.state.leaks;
       for (let i = 0; i < newLeaks.length; i++) {
         leaks.push(newLeaks[i]);

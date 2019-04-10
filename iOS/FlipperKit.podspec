@@ -2,6 +2,7 @@ folly_compiler_flags = '-DFLIPPER_OSS=1 -DFB_SONARKIT_ENABLED=1 -DFOLLY_NO_CONFI
 yoga_version = '~> 1.12.0-pre.1'
 yogakit_version = '~> 1.12.0-pre.1'
 flipperkit_version = '0.19.0'
+fb_memory_profiler_version = '~> 0.1.3'
 Pod::Spec.new do |spec|
   spec.name = 'FlipperKit'
   spec.version = flipperkit_version
@@ -73,6 +74,7 @@ Pod::Spec.new do |spec|
                              'iOS/Plugins/FlipperKitNetworkPlugin/FlipperKitNetworkPlugin/SKResponseInfo.h',
                              'iOS/Plugins/FlipperKitNetworkPlugin/FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h',
                              'iOS/Plugins/FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h',
+                             'iOS/Plugins/FlipperKitMemoryManagerPlugin/FlipperKitMemoryManagerPlugin.h',
                              'iOS/Plugins/FlipperKitLayoutPlugin/FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h',
                              'iOS/Plugins/FlipperKitLayoutPlugin/FlipperKitLayoutPlugin/SKTapListener.h',
                              'iOS/Plugins/FlipperKitLayoutPlugin/FlipperKitLayoutPlugin/SKInvalidation.h',
@@ -149,9 +151,19 @@ Pod::Spec.new do |spec|
     ss.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)\"/Headers/Private/FlipperKit/**" }
   end
 
+  spec.subspec "FlipperKitMemoryManagerPlugin" do |ss|
+    ss.header_dir = "FlipperKitMemoryManagerPlugin"
+    ss.dependency 'FlipperKit/Core'
+    ss.dependency 'FBMemoryProfiler', fb_memory_profiler_version
+    ss.compiler_flags       = folly_compiler_flags
+    ss.public_header_files = 'iOS/Plugins/FlipperKitMemoryManagerPlugin/FlipperKitMemoryManagerPlugin.h'
+    ss.source_files         = "iOS/Plugins/FlipperKitMemoryManagerPlugin/**/*.{h,m}"
+    ss.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)\"/Headers/Private/FlipperKit/**" }
+  end
+
   spec.subspec "FlipperKitUserDefaultsPlugin" do |ss|
     ss.header_dir = "FlipperKitUserDefaultsPlugin"
-    ss.dependency 'FlipperKit/Core'
+    ss.dependency 'FBMemoryProfiler'
     ss.compiler_flags       = folly_compiler_flags
     ss.public_header_files = 'iOS/Plugins/FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h'
     ss.source_files         = "iOS/Plugins/FlipperKitUserDefaultsPlugin/**/*.{h,m}"

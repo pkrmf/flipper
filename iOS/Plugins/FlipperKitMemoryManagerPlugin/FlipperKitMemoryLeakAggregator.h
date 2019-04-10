@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FlipperKitMemoryLeakAggregator : NSObject
 
++ (instancetype)sharedInstance;
+- (NSArray *)findMemoryLeaks;
 @end
 
 NS_ASSUME_NONNULL_END
