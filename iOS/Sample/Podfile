@@ -10,6 +10,7 @@ target 'Sample' do
   pod 'FlipperKit/SKIOSNetworkPlugin', :path => '../../FlipperKit.podspec'
   pod 'FlipperKit/FlipperKitUserDefaultsPlugin', :path => '../../FlipperKit.podspec'
   pod 'FlipperKit/FlipperKitExamplePlugin', :path => '../../FlipperKit.podspec'
+  pod 'FlipperKit/FlipperKitMemoryManagerPlugin', :path => '../../FlipperKit.podspec'
   pod 'Flipper', :path => '../../Flipper.podspec'
   # This post_install script adds swift version to yogakit's pod target.
   # It also adds -DFB_SONARKIT_ENABLED=1 flag to OTHER_CFLAGS, necessary to build expose Flipper classes in the header files

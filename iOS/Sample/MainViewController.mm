@@ -13,6 +13,7 @@
 #import "UserDefaultsViewController.h"
 #import "CommunicationDemoViewController.h"
 #import <FlipperKit/FlipperDiagnosticsViewController.h>
+#import <FBAllocationTracker/FBAllocationTrackerManager.h>
 
 @interface MainViewController ()
 
@@ -22,6 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // We are marking new generation
+    [[FBAllocationTrackerManager sharedManager] markGeneration];
     // Do any additional setup after loading the view.
 }
 - (IBAction)tappedDiagnosticScreen:(UIButton *)sender {

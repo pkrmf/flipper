@@ -14,7 +14,7 @@
 #import <FlipperKitExamplePlugin/FlipperKitExamplePlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
-
+#import <FlipperKitMemoryManagerPlugin/FlipperKitMemoryManagerPlugin.h>
 #import "MainViewController.h"
 #import "RootViewController.h"
 
@@ -22,12 +22,22 @@
 #error "Sample need to be run with SonarKit enabled in order to properly interact with Sonar. SonarKit is enabled by default if its a debug build."
 #endif
 
+@interface AppDelegate ()
+@property (nonatomic, strong) dispatch_block_t block;
+@end
+
 @implementation AppDelegate {
   UIWindow *_window;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.block = ^{
+        NSLog(self.block);
+    };
+    
+  FlipperKitMemoryManagerPlugin *memoryPlugin = [FlipperKitMemoryManagerPlugin new];
+    
   _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   FlipperClient *client = [FlipperClient sharedClient];
 
@@ -40,6 +50,8 @@
 
   [[FlipperClient sharedClient] addPlugin: [[FlipperKitNetworkPlugin alloc] initWithNetworkAdapter:[SKIOSNetworkAdapter new]]];
   [client addPlugin:[FlipperKitExamplePlugin sharedInstance]];
+    
+  [[FlipperClient sharedClient] addPlugin:memoryPlugin];
   [client start];
 
   UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryBoard" bundle:nil];
